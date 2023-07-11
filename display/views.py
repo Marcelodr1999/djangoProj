@@ -1,28 +1,50 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import JsonResponse
-from django.contrib.auth.models import User
+from .models import Display
+from django import forms
 
 import datetime
 from .models import Display
+from django.conf import settings
 
 def current_datetime(request):
     now = datetime.datetime.now()
     html = "<html><body>It is now %s.</body></html>" % now
     return HttpResponse(html)
 
-def send_json(request):
+# def send_json(request):
 
-    messages = list(Display.objects.values())
-    # data = [{'name': 'Bob', 'message': 'anything'},
-    #         {'name': 'Julia', 'message': messages}]
+#     messages = list(Display.objects.values())
+#     # data = [{'name': 'Bob', 'message': 'anything'},
+#     #         {'name': 'Julia', 'message': messages}]
 
-    return JsonResponse(messages, safe=False)
+#     return JsonResponse(messages, safe=False)
 
 
 def make_post(request):
     msg = list(Display.objects.filter(id=2).values())
-
-    # posts = [{'name': 'Bob', 'message': 'anything'},
-    #         {'name': 'Julia', 'message': msg}]
     return JsonResponse(msg, safe=False)
+
+# class PostForm(forms.ModelForm):
+#     class Meta:
+#         model = Display
+#         fields = ['content']
+
+def home(request):
+    displays = Display.objects.filter(user_id=2) # change 2 to whatever id you want to grab (can be variable)
+    data = [{'id': display.id, 'content': display.message, 'created_at': display.msg_date} for display in displays]
+    return JsonResponse(data, safe=False)
+
+# def create_post(request):
+#     if request.method == 'POST':
+#         form = PostForm(request.POST)
+#         if form.is_valid():
+#             display = form.save(commit=False)
+#             display.user_id = request.settings.AUTH_USER_MODEL
+#             display.save()
+#             return JsonResponse({'success': True})
+#         else:
+#             return JsonResponse({'success': False, 'errors': form.errors})
+#     else:
+#         return JsonResponse({'detail': 'Method not allowed'}, status=405)
