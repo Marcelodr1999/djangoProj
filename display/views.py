@@ -1,12 +1,14 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.http import JsonResponse
 from .models import Display
 from django import forms
+from django.views.decorators.csrf import csrf_exempt
 
 import datetime
-from .models import Display
 from django.conf import settings
+
 
 def current_datetime(request):
     now = datetime.datetime.now()
@@ -26,25 +28,26 @@ def make_post(request):
     msg = list(Display.objects.filter(id=2).values())
     return JsonResponse(msg, safe=False)
 
-# class PostForm(forms.ModelForm):
-#     class Meta:
-#         model = Display
-#         fields = ['content']
-
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Display
+        fields = "__all__"
+@csrf_exempt
 def home(request):
     displays = Display.objects.filter(user_id=2) # change 2 to whatever id you want to grab (can be variable)
+   # displays = Display.objects.all() # Display all messages
     data = [{'id': display.id, 'content': display.message, 'created_at': display.msg_date} for display in displays]
     return JsonResponse(data, safe=False)
 
-# def create_post(request):
-#     if request.method == 'POST':
-#         form = PostForm(request.POST)
-#         if form.is_valid():
-#             display = form.save(commit=False)
-#             display.user_id = request.settings.AUTH_USER_MODEL
-#             display.save()
-#             return JsonResponse({'success': True})
-#         else:
-#             return JsonResponse({'success': False, 'errors': form.errors})
-#     else:
-#         return JsonResponse({'detail': 'Method not allowed'}, status=405)
+def create_post(request):
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        if form.is_valid():
+            display = form.save(commit=False)
+            display.user_id = request.settings.AUTH_USER_MODEL
+            display.save()
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False, 'errors': form.errors})
+    else:
+        return JsonResponse({'detail': 'Method not allowed'}, status=405)
