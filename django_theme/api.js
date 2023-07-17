@@ -23,7 +23,7 @@ method: 'POST',
 headers: {
   'Accept': 'application/json',
   'Content-Type': 'application/json',
-  
+    
 },
 body: `{
    "id": 20,
@@ -34,5 +34,6 @@ body: `{
 .then((data)=>{
     console.log(JSON.stringify(data));
 });
+
 
   
