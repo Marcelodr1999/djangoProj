@@ -10,14 +10,17 @@
         
     </header>
     <div>
-        <form class = "formDes" id = "formId">
-            <input id = "msgid"  class = "" name = "message" value = "" type = "text" checked>
- 
-           
-            <button class = "order-button" id = "msgsubmit">Submit</button>  <br><br>  
-             
+        
+        <form method="post" class="formDes" id="formId" action="http://127.0.0.1:8000/display/">
+            <!-- <input type="hidden" name="csrfmiddlewaretoken" value="" id="csrfTokenInput"> -->
+        
+            <input id="msgid" name="message" value="" type="text" checked>
+            <button type ="submit" class="order-button" id="msgsubmit">Submit</button><br><br>
         </form>
+       
     </div>
+    
     <script src = "api.js"></script>
+
 </body>
 </html>

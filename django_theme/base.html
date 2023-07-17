@@ -3,9 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Register</title>
 </head>
 <body>
-    
+    <form id="registerForm" method="post" action="http://127.0.0.1:8000/register/">
+        <input type="text" id="registerUsername" placeholder="Email" name="email">
+        <input type="password" id="registerPassword" placeholder="Password" name="password">
+        <button type="submit">Register</button>
+      </form>
+
+      <script src = "api.js"></script>
 </body>
 </html>
