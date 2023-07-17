@@ -32,8 +32,10 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'contacts.apps.ContactsConfig',
+    'msgtest.apps.MsgtestConfig',
     'corsheaders',
     'display.apps.DisplayConfig',
+    'accounts.apps.AccountsConfig',
     'users.apps.UsersConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -46,12 +48,11 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -135,4 +136,20 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "users.CustomUser"
+
 CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOWED_ORIGINS = [
+    'http://127.0.0.1:5500',
+    'http://127.0.0.1:8000'
+
+]
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:5500', 'http://127.0.0.1:5500/django_theme/index.html', 'http://127.0.0.1:8000/display']
+
+CORS_ALLOW_HEADERS = (
+    'xsrfheadername',
+    'xsrfcookiename',
+    'content-type',
+    'X-CSRFTOKEN',
+)
+
