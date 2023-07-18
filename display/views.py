@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import get_user_model
 import datetime
 from django.conf import settings
-
+import json
 
 def current_datetime(request):
     now = datetime.datetime.now()
@@ -38,18 +38,34 @@ def home(request):
     return JsonResponse(data, safe=False)
 
 
+# @csrf_exempt
+# def create_post(request):
+#     if request.method == 'POST':
+#         form = PostForm(request.POST)
+#         if form.is_valid():
+#             # display = form.save(commit=False)
+#             # display.user_id_id = form.cleaned_data['user_id']
+#             # display.save()
+#             form.save()
+#             return JsonResponse({'success': True})
+#         else:
+#             return JsonResponse({'success': False, 'errors': form.errors})
+#     else:
+#         # form = PostForm()
+#         return JsonResponse({'detail': 'Method not allowed'}, status=405)
+
 @csrf_exempt
 def create_post(request):
     if request.method == 'POST':
-        form = PostForm(request.POST)
-        if form.is_valid():
-            # display = form.save(commit=False)
-            # display.user_id_id = form.cleaned_data['user_id']
-            # display.save()
-            form.save()
-            return JsonResponse({'success': True})
-        else:
-            return JsonResponse({'success': False, 'errors': form.errors})
+        try:
+            data = json.loads(request.body)
+            form = PostForm(data)
+            if form.is_valid():
+                form.save()
+                return JsonResponse({'success': True})
+            else:
+                return JsonResponse({'success': False, 'errors': form.errors})
+        except json.JSONDecodeError:
+            return JsonResponse({'success': False, 'errors': 'Invalid JSON data'})
     else:
-        # form = PostForm()
         return JsonResponse({'detail': 'Method not allowed'}, status=405)
