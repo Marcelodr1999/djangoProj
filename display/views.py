@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from .models import Display
 from .forms import PostForm
@@ -28,6 +28,20 @@ def make_post(request):
     msg = list(Display.objects.filter(id=2).values())
     return JsonResponse(msg, safe=False)
 
+#@login_required
+@csrf_exempt
+def messages_view(request):
+    user = request.user
+    messages = Display.objects.filter(user_id=user.id)  # Assuming you have a Message model with a foreign key to the User model
+    
+    # Convert the messages to a list of dictionaries
+    messages_data = [
+        {'message': message.message, 'msg_date': message.msg_date}  # Customize the dictionary based on your Message model fields
+        for message in messages
+    ]
+    
+
+    return JsonResponse({'messages': messages_data})
 
 
 @csrf_exempt
@@ -37,22 +51,6 @@ def home(request):
     data = [{'id': display.id, 'content': display.message, 'created_at': display.msg_date} for display in displays]
     return JsonResponse(data, safe=False)
 
-
-# @csrf_exempt
-# def create_post(request):
-#     if request.method == 'POST':
-#         form = PostForm(request.POST)
-#         if form.is_valid():
-#             # display = form.save(commit=False)
-#             # display.user_id_id = form.cleaned_data['user_id']
-#             # display.save()
-#             form.save()
-#             return JsonResponse({'success': True})
-#         else:
-#             return JsonResponse({'success': False, 'errors': form.errors})
-#     else:
-#         # form = PostForm()
-#         return JsonResponse({'detail': 'Method not allowed'}, status=405)
 
 @csrf_exempt
 def create_post(request):

@@ -161,8 +161,33 @@ if(submitbtn){
   submitbtn.addEventListener('click', function(e) {
     e.preventDefault();
     console.log('Button clicked');
-    // const apicall = await msgsubmit('http://127.0.0.1:8000/display/')
-    // console.log(apicall)
     createPost();
   })
 }
+
+//const userId = sessionStorage.getItem('id');
+const displayMessages = () => {
+  fetch('http://127.0.0.1:8000/display/messages/')  
+  .then(response => response.json())
+    .then(data => {
+      const messages = data.messages;
+      const messagesContainer = document.getElementById('messagesContainer');
+      
+      // Clear the existing messages
+      messagesContainer.innerHTML = '';
+      
+      // Display each message
+      messages.forEach(message => {
+        const messageElement = document.createElement('div');
+        messageElement.textContent = `Message: ${message.message}, Date: ${message.msg_date}`;
+        messagesContainer.appendChild(messageElement);
+      });
+    })
+    .catch(error => {
+      console.error(error);
+      // Handle any errors that occur during the request
+    });
+};
+
+// Call the displayMessages function when the page loads
+window.onload = displayMessages;
