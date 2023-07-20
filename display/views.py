@@ -31,17 +31,21 @@ def make_post(request):
 #@login_required
 @csrf_exempt
 def messages_view(request):
-    user = request.user
-    messages = Display.objects.filter(user_id=user.id)  # Assuming you have a Message model with a foreign key to the User model
-    
-    # Convert the messages to a list of dictionaries
-    messages_data = [
-        {'message': message.message, 'msg_date': message.msg_date}  # Customize the dictionary based on your Message model fields
-        for message in messages
-    ]
-    
+    user_id = request.headers.get('X-User-ID')
 
-    return JsonResponse({'messages': messages_data})
+    if user_id is not None:
+        
+        messages = Display.objects.filter(user_id=user_id)
+
+        # Convert the messages to a list of dictionaries
+        messages_data = [
+            {'message': message.message, 'msg_date': message.msg_date}
+            for message in messages
+        ]
+
+        return JsonResponse({'messages': messages_data})
+    else:
+        return JsonResponse({'success': False, 'message': 'User ID not found in session'})
 
 
 @csrf_exempt

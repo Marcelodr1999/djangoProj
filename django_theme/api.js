@@ -1,6 +1,6 @@
 const submitbtn = document.getElementById('msgsubmit');
 const submitinput = document.getElementById('msgid');
-const registerbtn = document.getElementById('registerForm');
+const registerbtn = document.getElementById('registerBtn');
 const form = document.getElementById('formId')
 
 //login
@@ -10,6 +10,13 @@ const passwordInput = document.getElementById('loginPassword');
 const loginsubmit = document.getElementById('loginsubmit')
 const successElement = document.getElementById('loginSuccess');
 const errorElement = document.getElementById('loginError');
+
+//REGISTER
+
+const registerEmail = document.getElementById('registerEmail');
+const registerPassword = document.getElementById('registerPassword');
+const registerPassword2 = document.getElementById('registerPassword2');
+
 
 
 // const csrfTokenInput = document.getElementById('csrfTokenInput');
@@ -24,8 +31,6 @@ const errorElement = document.getElementById('loginError');
 
 
 //login
-
-
 
 const login = () => {
   const url = 'http://127.0.0.1:8000/login/';  
@@ -68,18 +73,6 @@ const login = () => {
   });
 };
 
-window.onload = function() {
-  // Retrieve the email from session or local storage
-  const email = sessionStorage.getItem('email');
-  
-  // Display the email on the page
-  
-  if (document.getElementById('email_display')) {
-    const email_display = document.getElementById('email_display');
-    email_display.textContent = email;
-  }
-};
-
 
 if(loginsubmit){
   loginsubmit.addEventListener('click', function(e) {
@@ -92,6 +85,8 @@ const createPost = () => {
   const userid = sessionStorage.getItem('id');
   console.log('Inside createPost function');
   const url = 'http://127.0.0.1:8000/display/'; 
+  
+  
   const data = {
     message: submitinput.value,
     msg_date: new Date().toISOString(),
@@ -116,47 +111,6 @@ const createPost = () => {
       console.error(error);
     });
 };
-
-//REGISTER
-// const register = (data) => {
-//   const url = 'http://127.0.0.1:8000/register/';
-//   fetch(url, {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify(data)
-//   })
-//   .then(response => response.json())
-//   .then(responseData => {
-//     console.log(responseData);
-//     // Handle the response from the server
-//     if (responseData.success) {
-//       // Registration successful
-//     } else {
-//       // Registration failed
-//     }
-//   })
-//   .catch(error => {
-//     console.error(error);
-//     // Handle any errors that occur during the request
-//   });
-// };
-
-// registerbtn.addEventListener('submit', function(event) {
-//   event.preventDefault(); // Prevent the form from submitting normally
-//   const email = document.getElementById('registerUsername').value;
-//   const password = document.getElementById('registerPassword').value;
-//   // Perform validation on the input values if necessary
-  
-//   // Make the registration API call
-//   const data = {
-//     email: email,
-//     password: password
-//   };
-//   register(data);
-// });
-  
 if(submitbtn){
   submitbtn.addEventListener('click', function(e) {
     e.preventDefault();
@@ -164,10 +118,59 @@ if(submitbtn){
     createPost();
   })
 }
+//REGISTER
+const register = () => {
+  const url = 'http://127.0.0.1:8000/register/';
+  const data = {
+    email: registerEmail.value,
+    password1: registerPassword.value,
+    password2: registerPassword2.value,
+  };
 
-//const userId = sessionStorage.getItem('id');
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      // Registration successful
+      window.location.href = "http://127.0.0.1:5500/django_theme/login.html";
+      console.log(data.message);
+    } else {
+      // Registration failed, display error messages
+      console.log(data.errors);
+    }
+  })
+  .catch(error => {
+    console.error(error);
+    // Handle any errors that occur during the request
+  });
+};
+
+if(registerbtn){
+registerbtn.addEventListener('click', function(e) {
+  e.preventDefault();
+  register();
+});
+}
+
 const displayMessages = () => {
-  fetch('http://127.0.0.1:8000/display/messages/')  
+  const userId = sessionStorage.getItem('id');
+  if (!userId) {
+    console.error('User ID not found in session.');
+    return;
+  }
+
+  fetch('http://127.0.0.1:8000/display/messages/', {
+    headers: {
+      'Content-Type': 'application/json',
+      'X-User-ID': userId  // Send the user ID in a custom header
+    }
+  })  
   .then(response => response.json())
     .then(data => {
       const messages = data.messages;
@@ -179,7 +182,16 @@ const displayMessages = () => {
       // Display each message
       messages.forEach(message => {
         const messageElement = document.createElement('div');
-        messageElement.textContent = `Message: ${message.message}, Date: ${message.msg_date}`;
+        const formattedDate = new Date(message.msg_date).toLocaleString('en-US', {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+          hour12: true,
+        });
+
+        messageElement.textContent = `Message: ${message.message}, Date: ${formattedDate}`;
         messagesContainer.appendChild(messageElement);
       });
     })
@@ -189,5 +201,41 @@ const displayMessages = () => {
     });
 };
 
-// Call the displayMessages function when the page loads
-window.onload = displayMessages;
+// Call the displayMessages function when the page loads and display user name
+ if(window.location.pathname === '/django_theme/index.html'){
+   // Retrieve the email from session or local storage
+   const email = sessionStorage.getItem('email');
+  
+   // Display the email on the page
+   
+   if (document.getElementById('email_display')) {
+     const email_display = document.getElementById('email_display');
+     email_display.textContent = email;
+   }
+  window.onload = displayMessages;
+ }
+
+
+if (window.location.pathname === '/django_theme/index.html') {
+  // Check if there is an active session (user is logged in)
+  const isLoggedIn = sessionStorage.getItem('email') !== null;
+
+  // Function to handle the logout action
+  const logout = () => {
+    // Remove the email from the session storage
+    sessionStorage.removeItem('email');
+
+    // Redirect the user to the login page or any other page
+    window.location.href = 'http://127.0.0.1:5500/django_theme/login.html';
+  };
+
+  // If the user is logged in, display the logout button
+  if (isLoggedIn) {
+    const logoutButton = document.createElement('button');
+    logoutButton.textContent = 'Logout';
+    logoutButton.addEventListener('click', logout);
+
+    const logoutContainer = document.getElementById('logoutContainer');
+    logoutContainer.appendChild(logoutButton);
+  }
+}

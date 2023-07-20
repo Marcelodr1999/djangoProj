@@ -6,10 +6,11 @@
     <title>Register</title>
 </head>
 <body>
-    <form id="registerForm" method="post" action="http://127.0.0.1:8000/register/">
-        <input type="text" id="registerUsername" placeholder="Email" name="email">
+    <form id="registerForm" method="post">
+        <input type="text" id="registerEmail" placeholder="Email" name="email">
         <input type="password" id="registerPassword" placeholder="Password" name="password">
-        <button type="submit">Register</button>
+        <input type="password" id="registerPassword2" placeholder="Password" name="password">
+        <button id="registerBtn" type="submit">Register</button>
       </form>
 
       <script src = "api.js"></script>

@@ -141,7 +141,8 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:5500',
-    'http://127.0.0.1:8000'
+    'http://127.0.0.1:8000',
+    
 
 ]
 CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:5500', 'http://127.0.0.1:5500/django_theme/index.html', 'http://127.0.0.1:8000/display']
@@ -151,5 +152,6 @@ CORS_ALLOW_HEADERS = (
     'xsrfcookiename',
     'content-type',
     'X-CSRFTOKEN',
+    "x-user-id",
 )
-LOGIN_URL = '/accounts/login/'
+#LOGIN_URL = '/accounts/login/'
