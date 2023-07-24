@@ -31,7 +31,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'contacts.apps.ContactsConfig',
     'msgtest.apps.MsgtestConfig',
     'corsheaders',
     'display.apps.DisplayConfig',

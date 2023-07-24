@@ -4,15 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <form id="registerForm" method="post">
-        <input type="text" id="registerEmail" placeholder="Email" name="email">
-        <input type="password" id="registerPassword" placeholder="Password" name="password">
-        <input type="password" id="registerPassword2" placeholder="Password" name="password">
-        <button id="registerBtn" type="submit">Register</button>
-      </form>
-
+<header class="main-header">
+    <div class="header-div">
+        Welcome
+    </div>
+</header>
+<div class="body-div">
+    <div class="modalReg" id="myModal">
+        <div id="modalInner" class="modal-content">
+            
+            <form id="registerForm" method="post">
+                <div class="form-div">
+                <input class="inputStyle" type="text" id="registerEmail" placeholder="Email" name="email">
+                <input class="inputStyle" type="password" id="registerPassword" placeholder="Password" name="password">
+                <input class="inputStyle" type="password" id="registerPassword2" placeholder="Password" name="password">
+                <button id="registerBtn" type="submit" class="submitStyle">Register</button>
+                
+            </form>
+                </div>
+        </div>
+    </div>
+</div>
       <script src = "api.js"></script>
 </body>
 </html>

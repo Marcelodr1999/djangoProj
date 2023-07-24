@@ -182,6 +182,7 @@ const displayMessages = () => {
       // Display each message
       messages.forEach(message => {
         const messageElement = document.createElement('div');
+        messageElement.classList.add('messageStyle');
         const formattedDate = new Date(message.msg_date).toLocaleString('en-US', {
           month: 'short',
           day: 'numeric',
@@ -191,8 +192,17 @@ const displayMessages = () => {
           hour12: true,
         });
 
-        messageElement.textContent = `Message: ${message.message}, Date: ${formattedDate}`;
+        const messageDiv = document.createElement('div');
+        messageDiv.textContent = message.message;
+        const dateDiv = document.createElement('div');
+        dateDiv.textContent = formattedDate;
+
+        messageElement.appendChild(messageDiv);
+        messageElement.appendChild(dateDiv);
+        
         messagesContainer.appendChild(messageElement);
+        // messageElement.textContent = `${message.message}\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 ${formattedDate}`;
+        // messagesContainer.appendChild(messageElement);
       });
     })
     .catch(error => {
@@ -233,9 +243,56 @@ if (window.location.pathname === '/django_theme/index.html') {
   if (isLoggedIn) {
     const logoutButton = document.createElement('button');
     logoutButton.textContent = 'Logout';
+    logoutButton.classList.add('order-button');
     logoutButton.addEventListener('click', logout);
 
     const logoutContainer = document.getElementById('logoutContainer');
     logoutContainer.appendChild(logoutButton);
   }
 }
+
+
+
+const followUser = (userId) => {
+  fetch(`http://127.0.0.1:8000/follow/${userId}/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      // 'X-CSRFToken': getCookie('csrftoken'),
+    },
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        // Handle success
+      } else {
+        // Handle error
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      // Handle any errors that occur during the request
+    });
+};
+
+const unfollowUser = (userId) => {
+  fetch(`http://127.0.0.1:8000/unfollow/${userId}/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      // 'X-CSRFToken': getCookie('csrftoken'),
+    },
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        // Handle success
+      } else {
+        // Handle error
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      // Handle any errors that occur during the request
+    });
+};

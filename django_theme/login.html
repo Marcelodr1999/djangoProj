@@ -4,20 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <header class="main-header">
+        <div class="header-div">
+            Welcome
+        </div>
+    </header>
+<div class="body-div">
+
+    <button class="landingBtn" id="registerBtn">Create an account</button>
+    <button class="landingBtn" id="loginModalBtn">Sign in</button>
+    <div class="modal" id="myModal">
+        <div id="modalInner" class="modal-content">
+            <span class="close">&times;</span>
+           
+                <form class="form-style" id="loginForm" method="post" >
+                    <div class="form-div">
+                        <input class="inputStyle" type="text" id="loginEmail" placeholder="Email" name="email">
+                        <input class="inputStyle" type="password" id="loginPassword" placeholder="Password" name="password">
+                        <button type="submit" id="loginsubmit" class="submitStyle">Login</button>
+                    </form>
+                    <p id="loginError"></p>
+                    <p id="loginSuccess"></p>
+                    </div>
+            
+        </div>
+
+    </div>
+
+
+    
+</div>
     
 
 
-    <form id="loginForm" method="post" >
-        <input type="text" id="loginEmail" placeholder="Email" name="email">
-        <input type="password" id="loginPassword" placeholder="Password" name="password">
-        <button type="submit" id="loginsubmit">Login</button>
-      </form>
-      <p id="loginError"></p>
-      <p id="loginSuccess"></p>
-
-
+      <script src = "front.js"></script>
       <script src = "api.js"></script>
 </body>
 </html>

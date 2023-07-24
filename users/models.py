@@ -11,6 +11,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(default=timezone.now)
+    followers = models.ManyToManyField('self', related_name='following', symmetrical=False, blank=True)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []

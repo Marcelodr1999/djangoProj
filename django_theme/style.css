@@ -1,0 +1,212 @@
+.main-header,
+.header-div,
+.body-div,
+.form-style
+{
+display: flex;
+}
+/*
+Header
+*/
+.main-header {
+    width: auto;
+    height: 15vh;
+    background-color: rgb(255, 255, 255);
+}
+.header-div{
+    justify-content: space-around;
+    width: 100%;
+    margin-left: 15%;
+    margin-right: 15%;
+    font: 15px 'Orbitron', sans-serif;
+}
+/* body */
+
+.body-div {
+    flex-direction: column;
+    justify-content: flex-start;
+    width: auto; 
+    min-height: 100vh;
+    height: 100%;
+    margin-left: 30%;
+    margin-right: 30%;
+    font-family: 'Orbitron', sans-serif;
+}
+.body-divIndex{
+    flex-direction: column;
+    justify-content: flex-start;
+    width: auto; 
+    min-height: 100vh;
+    height: 100%;
+    margin-left: 30%;
+    margin-right: 30%;
+    font-family: 'Orbitron', sans-serif;
+
+}
+.form-div {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+}
+#loginForm{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+}
+
+.inputStyle{
+  font-family: 'Roboto', sans-serif;
+  color: rgb(76, 0, 255);
+  font-size: 1.2rem;
+  margin: 0 auto;
+  padding: 1.5rem 2rem;
+  border-radius: 0.2rem;
+  background-color: rgb(255, 255, 255);
+  border-color: rgb(76, 0, 255);
+  width: 80%;
+  height: 3rem;
+  display: block;
+  margin-bottom: 1rem;
+  transition: all 0.3s;
+}
+
+
+
+.messageStyle{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border:1px solid rgb(102, 102, 102);
+    min-height: 3rem;
+    padding: 1rem;    
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.msginputStyle{
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    width: 100%;
+    height: 3rem;
+}
+/* button */
+.landingBtn {
+    height: 5rem;
+    width:30vh;
+    padding: 5%, 10%;
+    background-color: rgb(255, 255, 255);
+    color: rgb(76, 0, 255);
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1rem;
+    font: 500 0.7rem 'Orbitron', sans-serif;
+    border: 1.5px solid rgb(76, 0, 255);
+    border-radius: 10%;
+}
+
+.landingBtn:hover{
+    cursor: pointer;
+    background-color: rgb(76, 0, 255);
+    color: white;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+.submitStyle{
+    height: 5rem;
+    width:20vh;
+    padding: 5%, 10%;
+    background-color: rgb(255, 255, 255);
+    color: rgb(76, 0, 255);
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1rem;
+    margin-top: 3rem;
+    font: 500 0.7rem 'Orbitron', sans-serif;
+    border: 1.5px solid rgb(76, 0, 255);
+    border-radius: 10%;
+}
+.submitStyle:hover{
+    cursor: pointer;
+    background-color: rgb(76, 0, 255);
+    color: white;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+
+.order-button{
+    height: 2.5rem;
+    width:10vh;
+    background-color: rgb(255, 255, 255);
+    color: rgb(76, 0, 255);
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    font: 500 0.7rem 'Orbitron', sans-serif;
+    border: 1.5px solid rgb(76, 0, 255);
+    border-radius: 10%;
+}
+
+.order-button:hover{
+    cursor: pointer;
+    background-color: rgb(76, 0, 255);
+    color: white;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+#loginForm{
+    display: none;
+}
+
+
+/* modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+    font-size: 1.3rem;
+}
+.modalReg {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+    font-size: 1.3rem;
+}
+
+.modal-content {
+    background-color:rgb(255, 255, 255);
+    margin: 15% auto;
+    margin-top: 10%; 
+    padding: 20px;
+    border: 1px solid #073007;
+    width: 30%;
+    color:rgb(4, 48, 4);
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }

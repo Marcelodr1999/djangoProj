@@ -4,20 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Django Project</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
         
     </header>
-    <div>
+    <div class="body-divIndex">
         <div id="email_display"></div>
+        <!-- Follow button -->
+            <button onclick="followUser(1)">Follow User</button>
+
+            <!-- Unfollow button -->
+            <button onclick="unfollowUser(1)">Unfollow User</button>
         <form method="post" class="formDes" id="formId">
             <!-- <input type="hidden" name="csrfmiddlewaretoken" value="" id="csrfTokenInput"> -->
         
-            <input id="msgid" name="message" value="" type="text" checked>
+            <input class="msginputStyle" id="msgid" name="message" value="" placeholder="Make a post" type="text" checked>
             <button type ="submit" class="order-button" id="msgsubmit">Submit</button><br><br>
         </form>
-        <div id="messagesContainer"></div>
+        <div id="messagesContainer" class="messageFlex"></div>
+
         <div id="logoutContainer"></div>
     </div>
     
