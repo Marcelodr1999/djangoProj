@@ -32,15 +32,24 @@ Header
     margin-right: 30%;
     font-family: 'Orbitron', sans-serif;
 }
+.body-div-flex{
+    display: flex;
+
+}
+/* .body-div-left{
+    
+} */
+
 .body-divIndex{
     flex-direction: column;
     justify-content: flex-start;
     width: auto; 
     min-height: 100vh;
     height: 100%;
-    margin-left: 30%;
-    margin-right: 30%;
+    margin-left: 25%;
+    margin-right: 25%;
     font-family: 'Orbitron', sans-serif;
+    
 
 }
 .form-div {
@@ -71,8 +80,6 @@ Header
   margin-bottom: 1rem;
   transition: all 0.3s;
 }
-
-
 
 .messageStyle{
     margin-top: 1rem;

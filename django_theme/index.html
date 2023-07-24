@@ -10,8 +10,18 @@
     <header>
         
     </header>
+    <div class="body-div-flex">
+        
+        <div class="body-div-left">
+            <h1>HOME</h1>
+            <a href="edit.html">Edit Profile </a>
+            
+        </div>
+    
     <div class="body-divIndex">
         <div id="email_display"></div>
+        <div id="logoutContainer">
+        </div>
         <!-- Follow button -->
             <button onclick="followUser(1)">Follow User</button>
 
@@ -19,16 +29,17 @@
             <button onclick="unfollowUser(1)">Unfollow User</button>
         <form method="post" class="formDes" id="formId">
             <!-- <input type="hidden" name="csrfmiddlewaretoken" value="" id="csrfTokenInput"> -->
-        
+    
             <input class="msginputStyle" id="msgid" name="message" value="" placeholder="Make a post" type="text" checked>
             <button type ="submit" class="order-button" id="msgsubmit">Submit</button><br><br>
         </form>
         <div id="messagesContainer" class="messageFlex"></div>
-
-        <div id="logoutContainer"></div>
     </div>
-    
+    <div>
+
+    </div>
+</div>
     <script src = "api.js"></script>
-    <script src = "messages.js"></script>
+    <script src = "front.js"></script>
 </body>
 </html>

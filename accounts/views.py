@@ -71,6 +71,52 @@ def login_view(request):
 
 
 @csrf_exempt
+def editname(request):
+    if request.method == 'POST':
+        user_id = request.headers.get('X-User-ID')
+
+        if user_id:
+            try:
+                # Retrieve the CustomUser object based on the user_id
+                user = CustomUser.objects.get(id=user_id)
+
+                # Get the first name and last name from the JSON request data
+                data = json.loads(request.body)
+                first_name = data.get('first_name')
+                last_name = data.get('last_name')
+
+                # Update the first name and last name
+                user.first_name = first_name
+                user.last_name = last_name
+                user.save()
+
+                return JsonResponse({'success': True, 'message': 'Name updated successfully'})
+            except CustomUser.DoesNotExist:
+                return JsonResponse({'success': False, 'message': 'User not found'})
+            except json.JSONDecodeError:
+                return JsonResponse({'success': False, 'message': 'Invalid JSON data'})
+        else:
+            return JsonResponse({'success': False, 'message': 'User ID not found in session'})
+    else:
+        return JsonResponse({'detail': 'Method not allowed'}, status=405)
+    
+@csrf_exempt
+def delete_account_view(request):
+    if request.method == 'POST':
+        user_id = request.headers.get('X-User-ID')
+        if user_id is not None:
+            try:
+                user = CustomUser.objects.get(id=user_id)
+                user.delete()
+                return JsonResponse({'success': True, 'message': 'Account deleted successfully'})
+            except CustomUser.DoesNotExist:
+                return JsonResponse({'success': False, 'message': 'User not found'}, status=404)
+        else:
+            return JsonResponse({'success': False, 'message': 'User ID not found in session'}, status=401)
+    else:
+        return JsonResponse({'detail': 'Method not allowed'}, status=405)
+    
+@csrf_exempt
 @login_required 
 def loggedin_user(request):
     user = request.user

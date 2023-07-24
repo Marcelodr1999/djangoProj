@@ -2,6 +2,7 @@ const submitbtn = document.getElementById('msgsubmit');
 const submitinput = document.getElementById('msgid');
 const registerbtn = document.getElementById('registerBtn');
 const form = document.getElementById('formId')
+const editBtn = document.getElementById('editBtn');
 
 //login
 const loginForm = document.getElementById('loginForm');
@@ -225,7 +226,122 @@ const displayMessages = () => {
   window.onload = displayMessages;
  }
 
+ const updateName = () => {
+  const firstNameInput = document.getElementById('editFirstname');
+  const lastNameInput = document.getElementById('editLastname');
+ 
+  const userId = sessionStorage.getItem('id');
+  if (!userId) {
+    console.error('User ID not found in session.');
+    return;
+  }
+  const url = 'http://127.0.0.1:8000/editname/';  
 
+  const data = {
+    first_name: firstNameInput.value,
+    last_name: lastNameInput.value,
+  };
+
+
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-User-ID': userId, // Send the user ID in a custom header
+    },
+    body: JSON.stringify(data),
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        // Update successful, display success message
+        window.location.href = "http://127.0.0.1:5500/django_theme/index.html";
+        console.log(data.message);
+      } else {
+        // Update failed, display error message
+        console.log(data.errors);
+      }
+    })
+    .catch(error => {
+      console.error(error);
+      // Handle any errors that occur during the request
+    });
+};
+
+if(editBtn){
+  editBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    updateName();
+  });
+}
+
+//DELETE ACCOUNT FUNCTION
+const deleteAccount = () => {
+  const userId = sessionStorage.getItem('id');
+  if (!userId) {
+    console.error('User ID not found in session.');
+    return;
+  }
+
+  // Show the confirmation dialog
+  const confirmationDialog = document.getElementById('confirmationDialog');
+  confirmationDialog.style.display = 'block';
+};
+
+// Listen for the user's confirmation
+const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+confirmDeleteBtn.addEventListener('click', () => {
+  // If the user confirms, proceed with the account deletion
+  const userId = sessionStorage.getItem('id');
+  if (!userId) {
+    console.error('User ID not found in session.');
+    return;
+  }
+
+  const url = 'http://127.0.0.1:8000/delete_account/';
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-User-ID': userId, // Send the user ID in a custom header
+    },
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        // Account deleted successfully, redirect to the login page
+        sessionStorage.clear(); // Clear all session data
+        window.location.href = 'http://127.0.0.1:5500/django_theme/login.html';
+      } else {
+        // Display error message if deletion failed
+        console.error(data.message);
+      }
+    })
+    .catch(error => {
+      console.error(error);
+      // Handle any errors that occur during the request
+    });
+});
+
+// Listen for the user's cancellation
+const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+cancelDeleteBtn.addEventListener('click', (e) => {
+  // If the user cancels, hide the confirmation dialog
+  e.preventDefault();
+  const confirmationDialog = document.getElementById('confirmationDialog');
+  confirmationDialog.style.display = 'none';
+});
+
+// Add an event listener to the "Delete Account" button
+const deleteAccountBtn = document.getElementById('deleteAccountBtn');
+deleteAccountBtn.addEventListener('click', function(e) {
+  e.preventDefault();
+  deleteAccount();
+});
+
+
+
+//DISPLAY LOGOUT BUTTON IF USER IS LOGGED IN
 if (window.location.pathname === '/django_theme/index.html') {
   // Check if there is an active session (user is logged in)
   const isLoggedIn = sessionStorage.getItem('email') !== null;
@@ -243,7 +359,6 @@ if (window.location.pathname === '/django_theme/index.html') {
   if (isLoggedIn) {
     const logoutButton = document.createElement('button');
     logoutButton.textContent = 'Logout';
-    logoutButton.classList.add('order-button');
     logoutButton.addEventListener('click', logout);
 
     const logoutContainer = document.getElementById('logoutContainer');

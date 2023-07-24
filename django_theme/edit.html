@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <button id="returnBtn" class="submitStyle">Go back</button>
+    <form id="editForm" method="post">
+        <div class="form-div">
+        
+        <input class="inputStyle" type="text" id="editFirstname" placeholder="First Name" name="firstname">
+        <input class="inputStyle" type="text" id="editLastname" placeholder="Last Name" name="lastname">
+        <button id="editBtn" type="submit" class="submitStyle">Make changes</button>
+        
+    </form>
+
+
+        <button id="deleteAccountBtn" type="">Delete Account</button>
+            <div id="confirmationDialog" style="display: none;">
+            <p>Are you sure you want to delete your account?</p>
+            <button id="confirmDeleteBtn">Yes, delete</button>
+            <button id="cancelDeleteBtn">Cancel</button>
+            </div>
+        </div>
+</div>
+
+
+    <script src = "api.js"></script>
+    <script src = "front.js"></script>
+</body>
+</html>
