@@ -5,7 +5,7 @@ const modalInner = document.getElementById("modalInner");
 const formDisplay = document.getElementById("loginForm")
 const span = document.getElementsByClassName("close")[0];
 const returnBtn = document.getElementById('returnBtn');
-
+const settingBtn = document.getElementById('settingBtn')
 
 if(loginModal){
   loginModal.addEventListener('click', function(e) {
@@ -30,11 +30,11 @@ if(returnBtn){
     window.location.href="index.html"
   })
 }
-
-
-
-
-
+if(settingBtn){
+  settingBtn.addEventListener('click', function(e) {
+    window.location.href="edit.html"
+  })
+}
 
 // window.onclick = function(event) {
 // if (event.target == modalMain) {

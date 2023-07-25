@@ -160,6 +160,7 @@ registerbtn.addEventListener('click', function(e) {
 });
 }
 
+
 const displayMessages = () => {
   const userId = sessionStorage.getItem('id');
   if (!userId) {
@@ -182,7 +183,9 @@ const displayMessages = () => {
       messagesContainer.innerHTML = '';
       
       // Display each message
-      messages.forEach(message => {
+      for (let i = messages.length - 1; i >= 0; i--){
+        const message = messages[i];
+      
         const messageElement = document.createElement('div');
         messageElement.classList.add('messageStyle');
         const formattedDate = new Date(message.msg_date).toLocaleString('en-US', {
@@ -196,15 +199,28 @@ const displayMessages = () => {
 
         const messageDiv = document.createElement('div');
         messageDiv.textContent = message.message;
+
         const dateDiv = document.createElement('div');
+        dateDiv.classList.add('dateStyle')
         dateDiv.textContent = formattedDate;
 
         messageElement.appendChild(messageDiv);
         messageElement.appendChild(dateDiv);
+
+        const editBtn = createEditButton(message.id, message.message);
+        messageElement.appendChild(messageDiv);
+        messageElement.appendChild(dateDiv);
+        messageElement.appendChild(editBtn);
+
+        // Create "Delete" button
         
+        const deleteButton = createDeleteButton(message.id); // Assuming the message object has an 'id' property
+        dateDiv.appendChild(deleteButton);
+
+        dateDiv.appendChild(editBtn);        
         messagesContainer.appendChild(messageElement);
 
-      });
+       };
     })
     .catch(error => {
       console.error(error);
@@ -221,7 +237,7 @@ const displayMessages = () => {
    
    if (document.getElementById('email_display')) {
      const email_display = document.getElementById('email_display');
-     email_display.textContent = email;
+     email_display.textContent = 'Hi, ' + email;
    }
   window.onload = displayMessages;
  }
@@ -293,8 +309,9 @@ const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
 if(confirmDeleteBtn){
   
 
-confirmDeleteBtn.addEventListener('click', () => {
+confirmDeleteBtn.addEventListener('click', (e) => {
   // If the user confirms, proceed with the account deletion
+  e.preventDefault();
   const userId = sessionStorage.getItem('id');
   if (!userId) {
     console.error('User ID not found in session.');
@@ -339,7 +356,7 @@ if(cancelDeleteBtn){
 }
 
 
-// Add an event listener to the "Delete Account" button
+// "Delete Account" button
 const deleteAccountBtn = document.getElementById('deleteAccountBtn');
 if(deleteAccountBtn){
   deleteAccountBtn.addEventListener('click', function(e) {
@@ -377,7 +394,139 @@ if (window.location.pathname === '/django_theme/index.html') {
   }
 }
 
+//Delete message button
 
+const deleteMessage = (messageId) => {
+  // const confirmDelete = confirm('Are you sure you want to delete this message?');
+  // if (confirmDelete) {
+  //   const userId = sessionStorage.getItem('id');
+  //   if (!userId) {
+  //     console.error('User ID not found in session.');
+  //     return;
+  //   }
+  const userId = sessionStorage.getItem('id');
+  if (!userId) {
+    console.error('User ID not found in session.');
+    return;
+  }
+
+    const url = `http://127.0.0.1:8000/display/delete_message/${messageId}/`;
+
+    fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-User-ID': userId, // Send the user ID in a custom header
+      },
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          // Deletion successful, refresh the messages display
+          window.location.reload()
+        } else {
+          // Display error message if deletion failed
+          console.error(data.message);
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        // Handle any errors that occur during the request
+      });
+  }
+
+
+  const createDeleteButton = (messageId) => {
+    const deleteBtn = document.createElement('button');
+    deleteBtn.textContent = 'Delete';
+    deleteBtn.classList.add('deleteMsgBtn');
+    deleteBtn.setAttribute('data-message-id', messageId); // Set the messageId as a custom attribute
+    deleteBtn.addEventListener('click', handleDeleteClick);
+    return deleteBtn;
+  };
+  
+  const handleDeleteClick = (event) => {
+    const messageId = event.target.getAttribute('data-message-id');
+    deleteMessage(messageId);
+  };
+
+  //edit message button
+  const createEditButton = (messageId, messageContent) => {
+    const editBtn = document.createElement('button');
+    editBtn.textContent = 'Edit';
+    editBtn.classList.add('editMsgBtn');
+    editBtn.setAttribute('data-message-id', messageId);
+    editBtn.setAttribute('data-message-content', messageContent);
+    editBtn.addEventListener('click', handleEditClick);
+    return editBtn;
+  };
+
+  const handleEditClick = (event) => {
+    const messageId = event.target.getAttribute('data-message-id');
+    const messageContent = event.target.getAttribute('data-message-content'); 
+
+  // Replace the message div with an editable input field or textarea
+  const messageDiv = event.target.parentNode.parentNode;
+  const editInput = document.createElement('input');
+  editInput.type = 'text';
+  editInput.value = messageContent;
+  
+  
+  // You can also use a textarea for multiline editing:
+  // const editInput = document.createElement('textarea');
+  // editInput.value = messageContent;
+
+  const updateBtn = document.createElement('button');
+  updateBtn.textContent = 'Update';
+  updateBtn.classList.add('editMsgBtn');
+  updateBtn.addEventListener('click', () => handleUpdateClick(messageId, editInput.value));
+
+  messageDiv.innerHTML = ''; // Remove the existing message content
+  messageDiv.appendChild(editInput);
+  messageDiv.appendChild(updateBtn);
+  };
+
+  const updateMessage = (messageId, newMessage) => {
+    const userId = sessionStorage.getItem('id');
+    if (!userId) {
+      console.error('User ID not found in session.');
+      return;
+    }
+  
+    const url = `http://127.0.0.1:8000/display/update_message/${messageId}/`;
+  
+    const data = {
+      message: newMessage,
+    };
+  
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-User-ID': userId, // Send the user ID in a custom header
+      },
+      body: JSON.stringify(data),
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          // Update successful, refresh the messages
+          displayMessages();
+        } else {
+          // Display error message if update failed
+          console.error(data.message);
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        // Handle any errors that occur during the request
+      });
+  };
+  
+  // Add an event listener to the "Update" button for each message
+  const handleUpdateClick = (messageId, newMessage) => {
+    updateMessage(messageId, newMessage);
+  };
 
 const followUser = (userId) => {
   fetch(`http://127.0.0.1:8000/follow/${userId}/`, {
