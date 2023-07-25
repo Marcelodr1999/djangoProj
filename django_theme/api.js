@@ -117,6 +117,7 @@ if(submitbtn){
     e.preventDefault();
     console.log('Button clicked');
     createPost();
+    window.location.reload();
   })
 }
 //REGISTER
@@ -202,8 +203,7 @@ const displayMessages = () => {
         messageElement.appendChild(dateDiv);
         
         messagesContainer.appendChild(messageElement);
-        // messageElement.textContent = `${message.message}\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 ${formattedDate}`;
-        // messagesContainer.appendChild(messageElement);
+
       });
     })
     .catch(error => {
@@ -290,6 +290,9 @@ const deleteAccount = () => {
 
 // Listen for the user's confirmation
 const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+if(confirmDeleteBtn){
+  
+
 confirmDeleteBtn.addEventListener('click', () => {
   // If the user confirms, proceed with the account deletion
   const userId = sessionStorage.getItem('id');
@@ -322,22 +325,29 @@ confirmDeleteBtn.addEventListener('click', () => {
       // Handle any errors that occur during the request
     });
 });
+}
 
 // Listen for the user's cancellation
 const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
-cancelDeleteBtn.addEventListener('click', (e) => {
-  // If the user cancels, hide the confirmation dialog
-  e.preventDefault();
-  const confirmationDialog = document.getElementById('confirmationDialog');
-  confirmationDialog.style.display = 'none';
-});
+if(cancelDeleteBtn){
+  cancelDeleteBtn.addEventListener('click', (e) => {
+    // If the user cancels, hide the confirmation dialog
+    e.preventDefault();
+    const confirmationDialog = document.getElementById('confirmationDialog');
+    confirmationDialog.style.display = 'none';
+  });
+}
+
 
 // Add an event listener to the "Delete Account" button
 const deleteAccountBtn = document.getElementById('deleteAccountBtn');
-deleteAccountBtn.addEventListener('click', function(e) {
-  e.preventDefault();
-  deleteAccount();
-});
+if(deleteAccountBtn){
+  deleteAccountBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    deleteAccount();
+  });
+  
+}
 
 
 
@@ -359,6 +369,7 @@ if (window.location.pathname === '/django_theme/index.html') {
   if (isLoggedIn) {
     const logoutButton = document.createElement('button');
     logoutButton.textContent = 'Logout';
+    logoutButton.classList.add('order-button');
     logoutButton.addEventListener('click', logout);
 
     const logoutContainer = document.getElementById('logoutContainer');
