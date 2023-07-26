@@ -8,9 +8,7 @@ import json
 from django.contrib.auth.forms import UserCreationForm
 from users.models import CustomUser
 
-
-
-
+from django.views.decorators.http import require_POST
 
 class RegistrationForm(UserCreationForm):
     # Add any additional fields you want to include in the registration form
@@ -55,12 +53,14 @@ def login_view(request):
                 auth_login(request, user)
                 request.session['email'] = user.email
                 request.session['id'] = user.id
+                request.session['first_name'] = user.first_name
 
                 response_data = {
                     'success': True,
                     'message': 'Login successful',
                     'email': user.email,
-                    'id': user.id  
+                    'id': user.id,  
+                    'first_name': user.first_name,
                 }
                 return JsonResponse(response_data)
             else:
@@ -122,3 +122,50 @@ def loggedin_user(request):
     user = request.user
     email = user.email
     return JsonResponse({'email': email})
+
+
+from django.db.models import Q
+
+@csrf_exempt
+def search_users_view(request):
+    search_query = request.GET.get('q')
+    if search_query:
+        # Perform case-insensitive search on the email field
+        users = CustomUser.objects.filter(Q(email__icontains=search_query))
+        serialized_users = [{'id': user.id, 'email': user.email, 'is_followed': user.is_followed(request.user)} for user in users]
+        return JsonResponse({'users': serialized_users})
+    else:
+        return JsonResponse({'success': False, 'message': 'Search query not provided'}, status=400)
+    
+
+
+@require_POST
+@csrf_exempt
+def follow_user_view(request, user_id):
+    user_idd = request.headers.get('X-User-ID')
+    if user_idd is not None:
+        try:
+            user = CustomUser.objects.get(id=user_idd)
+            user_to_follow = CustomUser.objects.get(id=user_id)
+            request.user.following.add(user_to_follow)
+            return JsonResponse({'success': True, 'message': 'User followed successfully'})
+        except CustomUser.DoesNotExist:
+            return JsonResponse({'success': False, 'message': 'User not found'}, status=404)
+        
+@csrf_exempt
+def unfollow_user_view(request, user_id):
+    try:
+        # Get the logged-in user
+        logged_in_user = request.user
+
+        # Get the user to be unfollowed based on the provided user_id
+        user_to_unfollow = CustomUser.objects.get(id=user_id)
+
+        # Remove the user_to_unfollow from the followers list of the logged-in user
+        logged_in_user.followers.remove(user_to_unfollow)
+
+        return JsonResponse({'success': True, 'message': 'User unfollowed successfully'})
+    except CustomUser.DoesNotExist:
+        return JsonResponse({'success': False, 'message': 'User not found'}, status=404)
+    except Exception as e:
+        return JsonResponse({'success': False, 'message': str(e)}, status=500)

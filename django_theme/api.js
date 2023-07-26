@@ -53,6 +53,7 @@ const login = () => {
       // Login successful
       sessionStorage.setItem('email', data.email);
       sessionStorage.setItem('id', data.id);
+      sessionStorage.setItem('first_name', data.first_name);
       window.location.href = "http://127.0.0.1:5500/django_theme/index.html";
       console.log(data)
       
@@ -232,14 +233,20 @@ const displayMessages = () => {
  if(window.location.pathname === '/django_theme/index.html'){
    // Retrieve the email from session or local storage
    const email = sessionStorage.getItem('email');
+   const first_name = sessionStorage.getItem('first_name')
   
    // Display the email on the page
    
    if (document.getElementById('email_display')) {
      const email_display = document.getElementById('email_display');
-     email_display.textContent = 'Hi, ' + email;
+     if(first_name != null){
+      email_display.textContent = 'Hi, ' + first_name;
+     }
+     else {
+      email_display.textContent = 'Hi, ' + email;
+    }
    }
-  window.onload = displayMessages;
+  window.onload = displayMessages();
  }
 
  const updateName = () => {
@@ -529,10 +536,17 @@ const deleteMessage = (messageId) => {
   };
 
 const followUser = (userId) => {
+  const userIdd = sessionStorage.getItem('id');
+    if (!userIdd) {
+      console.error('User ID not found in session.');
+      return;
+    }
+    
   fetch(`http://127.0.0.1:8000/follow/${userId}/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      'X-User-ID': userIdd,
       // 'X-CSRFToken': getCookie('csrftoken'),
     },
   })
@@ -540,8 +554,10 @@ const followUser = (userId) => {
     .then(data => {
       if (data.success) {
         // Handle success
+        console.log('SUCCESS')
       } else {
         // Handle error
+        console.log('FAIL')
       }
     })
     .catch(error => {
@@ -571,3 +587,68 @@ const unfollowUser = (userId) => {
       // Handle any errors that occur during the request
     });
 };
+
+
+const searchUsers = () => {
+  const searchInput = document.getElementById('searchInput');
+  const searchQuery = searchInput.value.trim();
+
+  // Validate the search query before sending the request
+  if (!searchQuery) {
+    // Handle case when the search query is empty
+    console.error('Search query cannot be empty.');
+    return;
+  }
+
+  fetch(`http://127.0.0.1:8000/search_users/?q=${searchQuery}`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then(response => response.json())
+    .then(data => {
+      const users = data.users;
+      const searchResultsContainer = document.getElementById('searchResultsContainer');
+
+      // Clear the existing search results
+      searchResultsContainer.innerHTML = '';
+
+      // Display each user's email as clickable links
+      users.forEach(user => {
+        const userLink = document.createElement('a');
+        userLink.textContent = user.email;
+        userLink.href = `/user/${user.id}`; // Replace with the URL of the user profile page
+
+        const followBtn = document.createElement('button');
+        followBtn.textContent = 'Follow';
+        followBtn.addEventListener('click', () => followUser(user.id));
+
+        const unfollowBtn = document.createElement('button');
+        unfollowBtn.textContent = 'Unfollow';
+        unfollowBtn.addEventListener('click', () => unfollowUser(user.id));
+
+        // Add the buttons based on whether the user is already followed or not
+        if (user.is_followed) {
+          searchResultsContainer.appendChild(unfollowBtn);
+        } else {
+          searchResultsContainer.appendChild(followBtn);
+        }
+
+        // Append the user email link to the search results container
+        searchResultsContainer.appendChild(userLink);
+      });
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      // Handle any errors that occur during the request
+    });
+};
+
+const searchBtn = document.getElementById('searchBtn');
+const searchInput = document.getElementById('searchInput');
+
+searchBtn.addEventListener('click', () => {
+  const searchQuery = searchInput.value;
+  searchUsers(searchQuery);
+});
+

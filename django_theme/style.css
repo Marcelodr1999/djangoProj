@@ -14,6 +14,7 @@ Header
     width: auto;
     height: 15vh;
     background-color: rgb(255, 255, 255);
+    
 }
 .header-div{
     justify-content: space-around;
@@ -26,6 +27,7 @@ Header
 .body-header{
     justify-content: space-between;
     font-family: 'Roboto';
+    height: 5vh;
 }
 /* body */
 
@@ -45,23 +47,26 @@ Header
 }
 .body-div-left{
     min-width: 15%;
-    margin-left: 5%;
+    padding-left: 4%;
     margin-top: 1%;
+    border: 1px solid gray;
+    background-color: white;
 }
 
 .body-divIndex{
     flex-direction: column;
     justify-content: flex-start;
-    min-width: 25%;
-    width:auto; 
+    width: 30%; 
     min-height: 100vh;
     height: 100%;
-    margin-left: 20%;
-    margin-right: 20%;
-    font-family: 'Orbitron', sans-serif;
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-top: 1%;
+    font-family: 'Roboto', sans-serif;
+    /* border: 1px gray solid; */
 }
 .body-div-right{
-    min-width: 15%;
+    width: 15%;
 }
 .form-div {
     display: flex;
@@ -74,12 +79,23 @@ Header
     font-size: 30px;
     font-family: 'Roboto', sans-serif;
 }
+
+.formDes {
+    border: 1px gray solid;
+    padding: 5%;
+    text-align: center;
+    width: 98%;
+    background-color: white;
+    
+}
 #loginForm{
     display: flex;
     width: 100%;
     height: 100%;
     flex-direction: column;
 }
+
+
 
 .inputStyle{
   font-family: 'Roboto', sans-serif;
@@ -88,8 +104,10 @@ Header
   margin: 0 auto;
   padding: 1.5rem 2rem;
   border-radius: 0.2rem;
+  border: none;
+  outline: 0;
+  border-bottom: 2px solid rgb(76, 0, 255);
   background-color: rgb(255, 255, 255);
-  border-color: rgb(76, 0, 255);
   width: 80%;
   height: 3rem;
   display: block;
@@ -102,9 +120,11 @@ Header
     font-size: 1.2rem;
     margin: 0 auto;
     padding: 1.5rem 2rem;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid rgb(76, 0, 255);
     border-radius: 0.2rem;
     background-color: rgb(255, 255, 255);
-    border-color: rgb(76, 0, 255);
     width: 40%;
     height: 3rem;
     display: block;
@@ -112,6 +132,7 @@ Header
     transition: all 0.3s;
   }
 
+  
 .messageStyle{
     margin-top: 1rem;
     margin-bottom: 1rem;
@@ -129,8 +150,16 @@ Header
 .msginputStyle{
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
-    width: 100%;
+    width: 90%;
+    margin-left:4%;
+    margin-right:auto;
     height: 3rem;
+    font-family: 'Roboto';
+    border: none;
+    outline: 0;
+    background-color: transparent;
+    border-bottom: 1px solid black;
+
 }
 
 .dateStyle{
@@ -140,6 +169,7 @@ Header
     order: 2;
     margin-right: 0;
 }
+
 /* button */
 .landingBtn {
     height: 5rem;
@@ -163,7 +193,7 @@ Header
 }
 
 .submitStyle{
-    height: 5rem;
+    height: 3rem;
     width:20vh;
     padding: 5%, 10%;
     background-color: rgb(255, 255, 255);
@@ -174,13 +204,15 @@ Header
     margin-top: 3rem;
     font: 500 0.7rem 'Orbitron', sans-serif;
     border: 1.5px solid rgb(76, 0, 255);
-    border-radius: 10%;
+    box-shadow: 0 0 20px rgba(104, 85, 224, 0.2);
+     
 }
 .submitStyle:hover{
     cursor: pointer;
     background-color: rgb(76, 0, 255);
     color: white;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    
 }
 
 
@@ -191,11 +223,10 @@ Header
     color: rgb(76, 0, 255);
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 1rem;
-    margin-top: 1rem;
-    font: 500 0.7rem 'Orbitron', sans-serif;
-    border: 1.5px solid rgb(76, 0, 255);
-    border-radius: 10%;
+    margin-top: 0.5rem;
+    font: 500 0.7rem 'Roboto', sans-serif;
+    border: 1px solid rgb(76, 0, 255);
+    box-shadow: 0 0 5px rgba(104, 85, 224, 0.2);
 }
 
 .order-button:hover{

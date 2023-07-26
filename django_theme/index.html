@@ -13,20 +13,21 @@
     <header class="body-header">
         
         <div id="email_display"></div>
-        <div id="logoutContainer"></div>
+        
     </header>
     <div class="body-div-flex">
         
         <div class="body-div-left">
-            <h1>HOME</h1>
+            <h2>HOME</h2>
             <button id="settingBtn" class="order-button">Settings</button>   
+            <div id="logoutContainer"></div>
         </div>
     
     <div class="body-divIndex">
         <!-- Follow button -->
-        <button onclick="followUser(1)">Follow User</button>
+        <!-- <button onclick="followUser(1)">Follow User</button> -->
         <!-- Unfollow button -->
-        <button onclick="unfollowUser(1)">Unfollow User</button>
+        <!-- <button onclick="unfollowUser(1)">Unfollow User</button> -->
         <form method="post" class="formDes" id="formId">
             <!-- <input type="hidden" name="csrfmiddlewaretoken" value="" id="csrfTokenInput"> -->
             <input class="msginputStyle" id="msgid" name="message" value="" placeholder="Make a post" type="text" checked>
@@ -35,7 +36,14 @@
         <div id="messagesContainer" class="messageFlex"></div>
     </div>
     <div class="body-div-right">
-
+        <p>Search for a user</p>
+        <div>
+            <input type="text" id="searchInput" placeholder="Enter email">
+            <button id="searchBtn">Search</button>
+        </div>
+        <div id="searchResultsContainer">
+            <!-- Display search results here -->
+          </div>
     </div>
 </div>
     <script src = "api.js"></script>

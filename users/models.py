@@ -22,3 +22,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+    
+    
+    def is_followed(self, user):
+        return self.followers.filter(pk=user.pk).exists()
