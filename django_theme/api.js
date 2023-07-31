@@ -555,6 +555,8 @@ const followUser = (userId) => {
       if (data.success) {
         // Handle success
         console.log('SUCCESS')
+        const users = data.users;
+        console.log('Users:', users);
       } else {
         // Handle error
         console.log('FAIL')
@@ -571,15 +573,19 @@ const unfollowUser = (userId) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      // 'X-CSRFToken': getCookie('csrftoken'),
     },
   })
     .then(response => response.json())
     .then(data => {
       if (data.success) {
-        // Handle success
+        // Handle success (e.g., update the UI to reflect the unfollow action)
+        // For example, remove the user from the list of followed users
+        const followedUsersContainer = document.getElementById('followedUsersContainer');
+        const userElement = document.getElementById(`user-${userId}`);
+        followedUsersContainer.removeChild(userElement);
       } else {
         // Handle error
+        console.error(data.message);
       }
     })
     .catch(error => {
@@ -608,6 +614,8 @@ const searchUsers = () => {
     .then(response => response.json())
     .then(data => {
       const users = data.users;
+      console.log('Users:', users); // Debugging: Check if the users data is received correctly
+
       const searchResultsContainer = document.getElementById('searchResultsContainer');
 
       // Clear the existing search results
@@ -627,10 +635,18 @@ const searchUsers = () => {
         unfollowBtn.textContent = 'Unfollow';
         unfollowBtn.addEventListener('click', () => unfollowUser(user.id));
 
+        // Remove any previous buttons
+        const previousButton = searchResultsContainer.querySelector(`[data-user-id="${user.id}"]`);
+        if (previousButton) {
+          previousButton.remove();
+        }
+
         // Add the buttons based on whether the user is already followed or not
         if (user.is_followed) {
+          unfollowBtn.setAttribute('data-user-id', user.id);
           searchResultsContainer.appendChild(unfollowBtn);
         } else {
+          followBtn.setAttribute('data-user-id', user.id);
           searchResultsContainer.appendChild(followBtn);
         }
 
@@ -645,10 +661,50 @@ const searchUsers = () => {
 };
 
 const searchBtn = document.getElementById('searchBtn');
-const searchInput = document.getElementById('searchInput');
-
 searchBtn.addEventListener('click', () => {
-  const searchQuery = searchInput.value;
-  searchUsers(searchQuery);
+  searchUsers();
 });
+// const searchBtn = document.getElementById('searchBtn');
+// const searchInput = document.getElementById('searchInput');
 
+// searchBtn.addEventListener('click', () => {
+//   const searchQuery = searchInput.value;
+//   searchUsers(searchQuery);
+// });
+
+
+
+const displayFollowedUsers = () => {
+  const userId = sessionStorage.getItem('id');
+  if (!userId) {
+    console.error('User ID not found in session.');
+    return;
+  }
+
+  fetch('http://127.0.0.1:8000/get_followed_users/', {
+    headers: {
+      'Content-Type': 'application/json',
+      'X-User-ID': userId,
+    }
+  })
+  .then(response => response.json())
+  .then(data => {
+    const followedUsers = data.users;
+    const followedUsersContainer = document.getElementById('followedUsersContainer');
+
+    // Clear the existing list of followed users
+    followedUsersContainer.innerHTML = '';
+
+    // Display the list of followed users
+    followedUsers.forEach(user => {
+      const userElement = document.createElement('div');
+      userElement.textContent = user.email;
+      followedUsersContainer.appendChild(userElement);
+    });
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    // Handle any errors that occur during the request
+  });
+};
+displayFollowedUsers();
