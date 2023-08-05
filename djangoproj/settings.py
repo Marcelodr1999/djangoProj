@@ -152,5 +152,6 @@ CORS_ALLOW_HEADERS = (
     'content-type',
     'X-CSRFTOKEN',
     "x-user-id",
+    'Y-User-Id',
 )
 #LOGIN_URL = '/accounts/login/'

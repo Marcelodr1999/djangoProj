@@ -25,7 +25,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     
     
     def is_followed(self, user):
-        return self.following.filter(pk=user.pk).exists()
+        return self.following.filter(id=user.id).exists()
+
     
     def followed_users(self):
         return self.following.all()

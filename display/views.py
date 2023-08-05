@@ -9,26 +9,51 @@ from django.contrib.auth import get_user_model
 import datetime
 from django.conf import settings
 import json
+from users.models import CustomUser
+from django.db.models import Q
 
 #@login_required
 @csrf_exempt
+# def messages_view(request):
+#     user_id = request.headers.get('X-User-ID')
+
+#     if user_id is not None:
+        
+#         messages = Display.objects.filter(user_id=user_id)
+
+#         # Convert the messages to a list of dictionaries
+#         messages_data = [
+#             {'id': message.id, 'message': message.message, 'msg_date': message.msg_date}
+#             for message in messages
+#         ]
+
+#         return JsonResponse({'messages': messages_data})
+#     else:
+#         return JsonResponse({'success': False, 'message': 'User ID not found in session'})
 def messages_view(request):
     user_id = request.headers.get('X-User-ID')
 
     if user_id is not None:
-        
-        messages = Display.objects.filter(user_id=user_id)
+        try:
+            current_user = CustomUser.objects.get(id=int(user_id))
+            following_users_ids = current_user.following.values_list('id', flat=True)
 
-        # Convert the messages to a list of dictionaries
-        messages_data = [
-            {'id': message.id, 'message': message.message, 'msg_date': message.msg_date}
-            for message in messages
-        ]
+            # Fetch messages from the current user and the users they follow
+            messages = Display.objects.filter(
+                Q(user_id=user_id) | Q(user_id__in=following_users_ids)
+            ).order_by('-msg_date')
 
-        return JsonResponse({'messages': messages_data})
+            # Convert the messages to a list of dictionaries
+            messages_data = [
+                {'id': message.id, 'message': message.message, 'msg_date': message.msg_date, 'email': message.user_id.email}
+                for message in messages
+            ]
+
+            return JsonResponse({'messages': messages_data})
+        except CustomUser.DoesNotExist:
+            return JsonResponse({'success': False, 'message': 'User not found.'}, status=404)
     else:
-        return JsonResponse({'success': False, 'message': 'User ID not found in session'})
-
+        return JsonResponse({'success': False, 'message': 'User ID not found in session'}, status=401)
 @csrf_exempt
 def create_post(request):
     if request.method == 'POST':

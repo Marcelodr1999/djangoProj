@@ -164,6 +164,7 @@ registerbtn.addEventListener('click', function(e) {
 
 const displayMessages = () => {
   const userId = sessionStorage.getItem('id');
+  const userEmail = sessionStorage.getItem('email');
   if (!userId) {
     console.error('User ID not found in session.');
     return;
@@ -184,9 +185,9 @@ const displayMessages = () => {
       messagesContainer.innerHTML = '';
       
       // Display each message
-      for (let i = messages.length - 1; i >= 0; i--){
+      for (let i = 0; i < messages.length; i++){
         const message = messages[i];
-      
+  
         const messageElement = document.createElement('div');
         messageElement.classList.add('messageStyle');
         const formattedDate = new Date(message.msg_date).toLocaleString('en-US', {
@@ -197,28 +198,40 @@ const displayMessages = () => {
           minute: 'numeric',
           hour12: true,
         });
-
+        const headDiv = document.createElement('header');
+        headDiv.classList.add('headdivStyle');
         const messageDiv = document.createElement('div');
+        messageDiv.classList.add('messagetextStyle')
         messageDiv.textContent = message.message;
+
+        const emailDiv = document.createElement('div');
+        emailDiv.classList.add('emailStyle');
+        emailDiv.textContent = 'User: ' + message.email;
 
         const dateDiv = document.createElement('div');
         dateDiv.classList.add('dateStyle')
         dateDiv.textContent = formattedDate;
 
-        messageElement.appendChild(messageDiv);
-        messageElement.appendChild(dateDiv);
+        // messageElement.appendChild(messageDiv);
+        // messageElement.appendChild(dateDiv);
 
-        const editBtn = createEditButton(message.id, message.message);
-        messageElement.appendChild(messageDiv);
-        messageElement.appendChild(dateDiv);
-        messageElement.appendChild(editBtn);
-
-        // Create "Delete" button
         
+        
+
+
+        headDiv.appendChild(emailDiv);
+        headDiv.appendChild(dateDiv);
+        messageElement.appendChild(headDiv);
+        messageElement.appendChild(messageDiv);
+        const editBtn = createEditButton(message.id, message.message);
+        // Create "Delete" button
         const deleteButton = createDeleteButton(message.id); // Assuming the message object has an 'id' property
+        if (message.email === (userEmail)) {
         dateDiv.appendChild(deleteButton);
 
-        dateDiv.appendChild(editBtn);        
+        dateDiv.appendChild(editBtn);  
+        }
+        
         messagesContainer.appendChild(messageElement);
 
        };
@@ -546,7 +559,7 @@ const followUser = (userId) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'X-User-ID': userIdd,
+      'Y-User-Id': userIdd,
       // 'X-CSRFToken': getCookie('csrftoken'),
     },
   })
@@ -555,8 +568,7 @@ const followUser = (userId) => {
       if (data.success) {
         // Handle success
         console.log('SUCCESS')
-        const users = data.users;
-        console.log('Users:', users);
+        window.location.reload()
       } else {
         // Handle error
         console.log('FAIL')
@@ -569,10 +581,12 @@ const followUser = (userId) => {
 };
 
 const unfollowUser = (userId) => {
+  const userIdd = sessionStorage.getItem('id');
   fetch(`http://127.0.0.1:8000/unfollow/${userId}/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      'X-User-ID': userIdd
     },
   })
     .then(response => response.json())
@@ -580,9 +594,10 @@ const unfollowUser = (userId) => {
       if (data.success) {
         // Handle success (e.g., update the UI to reflect the unfollow action)
         // For example, remove the user from the list of followed users
-        const followedUsersContainer = document.getElementById('followedUsersContainer');
-        const userElement = document.getElementById(`user-${userId}`);
-        followedUsersContainer.removeChild(userElement);
+        // const followedUsersContainer = document.getElementById('followedUsersContainer');
+        // const userElement = document.getElementById(`user-${userId}`);
+        // followedUsersContainer.removeChild(userElement);
+        window.location.reload();
       } else {
         // Handle error
         console.error(data.message);
@@ -598,7 +613,7 @@ const unfollowUser = (userId) => {
 const searchUsers = () => {
   const searchInput = document.getElementById('searchInput');
   const searchQuery = searchInput.value.trim();
-
+  const userId = sessionStorage.getItem('id');
   // Validate the search query before sending the request
   if (!searchQuery) {
     // Handle case when the search query is empty
@@ -609,6 +624,7 @@ const searchUsers = () => {
   fetch(`http://127.0.0.1:8000/search_users/?q=${searchQuery}`, {
     headers: {
       'Content-Type': 'application/json',
+      'X-User-ID': userId,
     },
   })
     .then(response => response.json())
@@ -642,7 +658,7 @@ const searchUsers = () => {
         }
 
         // Add the buttons based on whether the user is already followed or not
-        if (user.is_followed) {
+        if (user.is_followed || user.is_followed === true) {
           unfollowBtn.setAttribute('data-user-id', user.id);
           searchResultsContainer.appendChild(unfollowBtn);
         } else {

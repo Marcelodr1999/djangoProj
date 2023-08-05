@@ -158,25 +158,24 @@ def search_users_view(request):
             except CustomUser.DoesNotExist:
                 pass
 
-        serialized_users = []
-        for user in users:
-            is_followed = current_user.following.filter(id=user.id).exists() if current_user else False
-            serialized_user = {'id': user.id, 'email': user.email, 'is_followed': is_followed}
-            serialized_users.append(serialized_user)
+        # Debug: Check if current_user is correctly retrieved
+        print('Current User:', current_user)
 
-            # Debug print statements
-            print(f"User: {user.email}, Is Followed: {is_followed}")
+        # Debug: Check if the users followed by the current_user are correct
+        if current_user:
+            followed_users = current_user.following.all()
+            print('Followed Users:', followed_users)
 
+        serialized_users = [{'id': user.id, 'email': user.email, 'is_followed': current_user.is_followed(user) if current_user else False} for user in users]
         return JsonResponse({'users': serialized_users})
     else:
-        return JsonResponse({'success': False, 'message': 'Search query not provided'}, status=400)    
-
+        return JsonResponse({'success': False, 'message': 'Search query not provided'}, status=400)
 
 @require_POST
 @csrf_exempt
 def follow_user_view(request, user_id):
     if request.method == 'POST':
-        user_id_header = request.headers.get('X-User-ID')
+        user_id_header = request.headers.get('Y-User-Id')
         
         if user_id_header is None:
             return JsonResponse({'success': False, 'message': 'User ID not found in session.'}, status=401)
@@ -200,30 +199,29 @@ def follow_user_view(request, user_id):
     else:
         return JsonResponse({'detail': 'Method not allowed'}, status=405)
     
-
+@require_POST
 @csrf_exempt
 def unfollow_user_view(request, user_id):
-    current_user_id = request.headers.get('X-User-ID')
-
-    if current_user_id is not None:
-        try:
-            user_to_unfollow = CustomUser.objects.get(id=int(user_id))
-            current_user = CustomUser.objects.get(id=int(current_user_id))
-
-            # Check if the current user is already following the user_to_unfollow
-            if current_user.following.filter(id=user_to_unfollow.id).exists():
-                # User is following, perform the unfollow action
-                current_user.following.remove(user_to_unfollow)
-                return JsonResponse({'success': True, 'message': 'User unfollowed successfully.'})
-            else:
-                # User is not following, return an error response or handle as needed
-                return JsonResponse({'success': False, 'message': 'You are not following this user.'}, status=400)
-
-        except CustomUser.DoesNotExist:
-            return JsonResponse({'success': False, 'message': 'User not found.'}, status=404)
-
-    else:
+    user_id_header = request.headers.get('X-User-ID')
+    
+    if user_id_header is None:
         return JsonResponse({'success': False, 'message': 'User ID not found in session.'}, status=401)
+
+    try:
+        current_user = CustomUser.objects.get(id=int(user_id_header))
+        user_to_unfollow = CustomUser.objects.get(id=int(user_id))
+
+        # Check if the current user is following the user_to_unfollow
+        if not current_user.following.filter(id=user_to_unfollow.id).exists():
+            # User is not following, return an error response or handle as needed
+            return JsonResponse({'success': False, 'message': 'You are not following this user.'}, status=400)
+
+        # Perform the unfollow action
+        current_user.following.remove(user_to_unfollow)
+        return JsonResponse({'success': True, 'message': 'User unfollowed successfully.'})
+
+    except CustomUser.DoesNotExist:
+        return JsonResponse({'success': False, 'message': 'User not found.'}, status=404)
     
 
 @csrf_exempt
