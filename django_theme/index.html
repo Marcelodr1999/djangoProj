@@ -8,19 +8,37 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
 </head>
 <body>
     <header class="body-header">
-        
+        <h1 class="header-title-text">Social Media Web App</h1>
         <div id="email_display"></div>
         
     </header>
     <div class="body-div-flex">
         
         <div class="body-div-left">
-            <h2>HOME</h2>
-            <button id="settingBtn" class="order-button">Settings</button>   
-            <div id="logoutContainer"></div>
+            <ul>
+                <a href="index.html"><li>
+                  <i class="fa fa-home fa-lg"></i>
+                  Home
+                </li></a>
+
+                <li>
+                  <i class="fa fa-cog fa-lg"></i>
+                  <a href="edit.html">Settings</a>
+                  
+                </li>
+                <li>
+                  <i class="fa fa-sign-out fa-lg"></i>
+                 
+                  <div id="logoutContainer"></div>
+                </li>
+              </ul>
+             
         </div>
     
     <div class="body-divIndex">
@@ -36,13 +54,21 @@
         <div id="messagesContainer" class="messageFlex"></div>
     </div>
     <div class="body-div-right">
-        <p>Search for a user</p>
-        <div>
-            <input type="text" id="searchInput" placeholder="Enter email">
-            <button id="searchBtn">Search</button>
+        
+        <div class="searchBox">
+            <input type="text" class="sInput" id="searchInput" placeholder="Search for users by email">
+            <button class="searchButton" id="searchBtn"><i class="material-icons">
+                search
+            </i></button>
+            
+            <h2 class="followed-title">Users followed: </h2>
         </div>
-        <div id="followedUsersContainer"></div>
+        
+        <div id="followedUsersContainer">
+            
+        </div>
         <div id="searchResultsContainer">
+            
             <!-- Display search results here -->
           </div>
     </div>

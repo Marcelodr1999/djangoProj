@@ -1,3 +1,15 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: transparent;
+    font-family: 'Orbitron', sans-serif;
+}
+
+
 .main-header,
 .header-div,
 .body-div,
@@ -27,7 +39,9 @@ Header
 .body-header{
     justify-content: space-between;
     font-family: 'Roboto';
-    height: 5vh;
+    height: 6vh;
+    border-bottom: 1px solid black;
+    margin-top: 2%;
 }
 /* body */
 
@@ -41,16 +55,92 @@ Header
     margin-right: 30%;
     font-family: 'Orbitron', sans-serif;
 }
+
+.main-div-landing{
+    display: flex;
+}
+
+
+.landing-body-div{
+    width: 50%; 
+    margin-top: 0;
+    min-height: 100vh;
+    height: 100vh;
+    margin-left: 0;
+    font-family: 'Orbitron', sans-serif;
+    background-color: rgb(251, 255, 247);
+}
+.landing-body-right{
+    width: 50%; 
+    min-height: 100vh;
+    height: 100%;
+    margin-right: 0;
+    font-family: 'Orbitron', sans-serif;
+    background-color: rgb(76, 0, 255);
+}
+.landing-body-righttop{
+    background-image: url(img/laptop-img.avif);
+    min-height: 58vh;
+    min-width: 100%;
+    margin-top: 0;
+    background-size:     cover;
+}
+hr {
+
+    border-top: 1px solid white; 
+    margin-right: 5rem;
+   }
+.landing-p-text{
+    font-size: 1rem;
+    margin-top: 5%;
+}
+.landing-body-bottom{
+    text-align: left;
+    margin-left: 10%;
+    margin-right: auto;
+    margin-top: 5%;
+    color: white;
+    font-size: 1.5rem;
+    line-height: 1.5;
+}
+.landing-center-top{
+    display: flex;
+    text-align: left;
+    flex-direction: column;
+    margin-top: 23vh;
+    margin-left: 20%;
+    margin-right: 20%;
+    color: rgb(88, 88, 255);
+}
+.landing-center-left{
+    display: flex;
+    justify-content: center;
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-top: 1rem;
+}
+.landing-title{
+    font-size: 4.5rem;
+}
+
+.name-landing{
+    color: #616161;
+    margin-top: 1rem;
+    font-size: 1.2rem;
+}
+
 .body-div-flex{
     display: flex;
     background-color: rgb(251, 255, 247);
 }
 .body-div-left{
-    min-width: 15%;
-    padding-left: 4%;
-    margin-top: 1%;
-    border: 1px solid gray;
-    background-color: white;
+    min-width: 10%;
+    padding-left: 2%;
+    margin-top: 0;
+    margin-left: 1%;
+    border-right: 1px solid gray;
+    padding-top: 2rem;
+    /* background-color: white; */
 }
 
 .body-divIndex{
@@ -84,7 +174,7 @@ Header
     border: 1px gray solid;
     padding: 5%;
     text-align: center;
-    width: 98%;
+    width: 100%;
     background-color: white;
     
 }
@@ -144,9 +234,9 @@ Header
     margin-bottom: 1rem;
     border:1px solid rgb(102, 102, 102);
     min-height: 15rem;
-    padding: 1rem;    
+    padding: 5%;    
     display: flex;
-    width: 100%;
+    min-width: 100%;
     flex-direction: column;
     background-color: white;
     font-family: 'roboto';
@@ -189,26 +279,95 @@ Header
     height: 1rem;
 }
 
+#email_display{
+    margin-right: 5%;
+    font-size: 1.1rem;
+}
+.header-title-text{
+    margin-left: 5%;
+    font-size: 1.3rem;
+}
+a { 
+    text-decoration: none; 
+    color: black; 
+   }
+a:visited { 
+    text-decoration: none; 
+    color: black; 
+   }
 /* button */
+.searchBox { 
+    transform:  translate(-50%,50%);
+    background: white;
+    border-radius: 40px;
+    padding: 10px;
+    height: 3rem;
+    width: 19rem;
+    border: 1px solid black;
+    margin-left: 53%;
+    
+}
+
+.searchButton:hover {
+  background: #2f3640;
+  color : white;
+  cursor: pointer;
+}
+.searchButton{
+    color: #2f3640;
+    float: right;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.4s;
+}
+
+.sInput {
+    border:none;
+    background: none;
+    outline:none;
+    float:left;
+    padding: 0 6px;
+    color: #2f3640;
+    font-size: 16px;
+    transition: 0.4s;
+    line-height: 40px;
+    width: 15rem;
+
+}
+#registerBtn{
+    color: white;
+    background-color: rgb(76, 0, 255);
+}
+#createBtn{
+    color: white;
+    background-color: rgb(76, 0, 255);
+}
+
+
 .landingBtn {
     height: 5rem;
-    width:30vh;
+    width:25vh;
     padding: 5%, 10%;
     background-color: rgb(255, 255, 255);
     color: rgb(76, 0, 255);
-    margin-left: auto;
+    margin-left: 0;
     margin-right: auto;
     margin-bottom: 1rem;
     font: 500 0.7rem 'Orbitron', sans-serif;
-    border: 1.5px solid rgb(76, 0, 255);
-    border-radius: 10%;
+    border: 2px solid rgb(76, 0, 255);
+    font-size: 1.5rem;
+
 }
 
 .landingBtn:hover{
     cursor: pointer;
-    background-color: rgb(76, 0, 255);
-    color: white;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    border: 2px solid black;
 }
 
 .submitStyle{
@@ -226,6 +385,7 @@ Header
     box-shadow: 0 0 20px rgba(104, 85, 224, 0.2);
      
 }
+
 .submitStyle:hover{
     cursor: pointer;
     background-color: rgb(76, 0, 255);
@@ -238,69 +398,89 @@ Header
 .order-button{
     height: 2.5rem;
     width:10vh;
-    background-color: rgb(255, 255, 255);
-    color: rgb(76, 0, 255);
+    background-color: rgb(76, 0, 255);
+    color: white;
     margin-left: auto;
     margin-right: auto;
     margin-top: 0.5rem;
     font: 500 0.7rem 'Roboto', sans-serif;
-    border: 1px solid rgb(76, 0, 255);
-    box-shadow: 0 0 5px rgba(104, 85, 224, 0.2);
+    border: 1px solid black;
+    box-shadow: 0 0 2px rgba(104, 85, 224, 0.2);
 }
 
 .order-button:hover{
     cursor: pointer;
-    background-color: rgb(76, 0, 255);
-    color: white;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    border: 1.5px solid black;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.2);
 }
+
+#settingBtn:hover{
+    cursor: pointer;
+}
+
 
 .deleteMsgBtn{
     height: 1.5rem;
     width:8vh;
-    background-color: rgb(255, 255, 255);
-    color: rgb(255, 0, 0);
+    background-color: red;
+    color: white;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 0.2rem;
     margin-top: 1rem;
     font: 500 0.7rem 'Orbitron', sans-serif;
-    border: 1.5px solid rgb(255, 0, 0);
-    border-radius: 10%;   
+    border: 1px solid black;
+    
 }
 
 .deleteMsgBtn:hover{
     cursor: pointer;
-    background-color: rgb(255, 0, 0);
-    color: white;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 3px 5px 0 rgba(0,0,0,0.2);
+    border: 1.5px solid black;
 }
 .editMsgBtn{
     height: 1.5rem;
     width:8vh;
-    background-color: rgb(255, 255, 255);
-    color: rgb(0, 214, 0);
+    background-color: green;
+    color: white;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 0;
     font: 500 0.7rem 'Orbitron', sans-serif;
-    border: 1.5px solid rgb(21, 255, 0);
-    border-radius: 10%;
+    border: 1px solid black;
+    
 }
 
 .editMsgBtn:hover{
     cursor: pointer;
-    background-color: rgb(37, 255, 37);
-    color: white;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    border: 1.5px solid black;
+    box-shadow: 0 3px 5px 0 rgba(0,0,0,0.2);
 } 
 
 
+.follow-btn{
+    height: 1.7rem;
+    width:7vh;
+    background-color: rgb(36, 24, 206);
+    color: white;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0;
+    font: 500 0.7rem 'Orbitron', sans-serif;
+    border: 1px solid black;
+}
+.follow-btn:hover{
+    cursor: pointer;
+    border: 1.5px solid black;
+    box-shadow: 0 3px 5px 0 rgba(0,0,0,0.2);
+}
 
 #loginForm{
     display: none;
 }
-
+.userlinkstyle{
+    margin-right: 1rem;
+}
 
 /* modal */
 .modal {
@@ -351,4 +531,68 @@ Header
     color: black;
     text-decoration: none;
     cursor: pointer;
+  }
+.regClose {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .regClose:hover,
+  .regClose:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+
+
+  ul {
+    position: relative;
+    width: 100%;
+    margin-right: 2rem;
+  }
+  li {
+    position: relative;
+    list-style: none;
+    height: 55px;
+    width: 60%;
+    padding-left: 23px;
+    margin-right: 3rem;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  li:hover {
+    background-color: #dddddd;
+    cursor: pointer;
+  }
+
+  .logoutBtn:hover{
+cursor: pointer;
+  }
+
+
+  #followedUsersContainer{
+    margin-top: 27%;
+    color: #797979;
+    margin-bottom: 4%;
+  }
+
+  .updateInput{
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    width: 90%;
+  
+    height: 3rem;
+    font-family: 'Roboto';
+    border: none;
+    outline: 0;
+    background-color: transparent;
+    border-bottom: 1px solid black;
+  }
+
+  .followed-title{
+    margin-top: 22%;
   }

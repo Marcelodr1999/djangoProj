@@ -18,7 +18,7 @@ class RegistrationForm(UserCreationForm):
         model = CustomUser
         fields = ['email', 'password1', 'password2']
 
-
+@require_POST
 @csrf_exempt
 def register(request):
     if request.method == 'POST':
@@ -127,24 +127,6 @@ def loggedin_user(request):
 from django.db.models import Q
 
 @csrf_exempt
-# def search_users_view(request):
-#     search_query = request.GET.get('q')
-#     if search_query:
-#         # Perform case-insensitive search on the email field
-#         users = CustomUser.objects.filter(Q(email__icontains=search_query))
-#         user_id_header = request.headers.get('X-User-ID')
-#         current_user = None
-#         if user_id_header:
-#             try:
-#                 current_user = CustomUser.objects.get(id=int(user_id_header))
-#             except CustomUser.DoesNotExist:
-#                 pass
-
-#         # serialized_users = [{'id': user.id, 'email': user.email, 'is_followed': current_user.following.filter(id=user.id).exists() if current_user else False} for user in users]
-#         serialized_users = [{'id': user.id, 'email': user.email, 'is_followed': current_user.is_followed_by(user) if current_user else False} for user in users]
-#         return JsonResponse({'users': serialized_users})
-#     else:
-#         return JsonResponse({'success': False, 'message': 'Search query not provided'}, status=400)
 def search_users_view(request):
     search_query = request.GET.get('q')
     if search_query:

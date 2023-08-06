@@ -141,7 +141,7 @@ const register = () => {
   .then(data => {
     if (data.success) {
       // Registration successful
-      window.location.href = "http://127.0.0.1:5500/django_theme/login.html";
+      window.location.href = "http://127.0.0.1:5500/django_theme/landing.html";
       console.log(data.message);
     } else {
       // Registration failed, display error messages
@@ -351,7 +351,7 @@ confirmDeleteBtn.addEventListener('click', (e) => {
       if (data.success) {
         // Account deleted successfully, redirect to the login page
         sessionStorage.clear(); // Clear all session data
-        window.location.href = 'http://127.0.0.1:5500/django_theme/login.html';
+        window.location.href = 'http://127.0.0.1:5500/django_theme/landing.html';
       } else {
         // Display error message if deletion failed
         console.error(data.message);
@@ -399,14 +399,14 @@ if (window.location.pathname === '/django_theme/index.html') {
     sessionStorage.removeItem('email');
 
     // Redirect the user to the login page or any other page
-    window.location.href = 'http://127.0.0.1:5500/django_theme/login.html';
+    window.location.href = 'http://127.0.0.1:5500/django_theme/landing.html';
   };
 
   // If the user is logged in, display the logout button
   if (isLoggedIn) {
     const logoutButton = document.createElement('button');
     logoutButton.textContent = 'Logout';
-    logoutButton.classList.add('order-button');
+     logoutButton.classList.add('logoutBtn');
     logoutButton.addEventListener('click', logout);
 
     const logoutContainer = document.getElementById('logoutContainer');
@@ -488,6 +488,7 @@ const deleteMessage = (messageId) => {
   // Replace the message div with an editable input field or textarea
   const messageDiv = event.target.parentNode.parentNode;
   const editInput = document.createElement('input');
+  editInput.classList.add('updateInput')
   editInput.type = 'text';
   editInput.value = messageContent;
   
@@ -498,12 +499,18 @@ const deleteMessage = (messageId) => {
 
   const updateBtn = document.createElement('button');
   updateBtn.textContent = 'Update';
+  const returnBtn = document.createElement('button');
+  returnBtn.textContent = 'Return';
+
+  returnBtn.classList.add('editMsgBtn')
   updateBtn.classList.add('editMsgBtn');
   updateBtn.addEventListener('click', () => handleUpdateClick(messageId, editInput.value));
+  returnBtn.addEventListener('click', () => window.location.href="index.html");
 
   messageDiv.innerHTML = ''; // Remove the existing message content
   messageDiv.appendChild(editInput);
   messageDiv.appendChild(updateBtn);
+  messageDiv.appendChild(returnBtn);
   };
 
   const updateMessage = (messageId, newMessage) => {
@@ -640,15 +647,18 @@ const searchUsers = () => {
       // Display each user's email as clickable links
       users.forEach(user => {
         const userLink = document.createElement('a');
+        userLink.classList.add('userlinkstyle')
         userLink.textContent = user.email;
         userLink.href = `/user/${user.id}`; // Replace with the URL of the user profile page
 
         const followBtn = document.createElement('button');
         followBtn.textContent = 'Follow';
+        followBtn.classList.add('follow-btn')
         followBtn.addEventListener('click', () => followUser(user.id));
 
         const unfollowBtn = document.createElement('button');
         unfollowBtn.textContent = 'Unfollow';
+        unfollowBtn.classList.add('follow-btn')
         unfollowBtn.addEventListener('click', () => unfollowUser(user.id));
 
         // Remove any previous buttons
@@ -656,6 +666,10 @@ const searchUsers = () => {
         if (previousButton) {
           previousButton.remove();
         }
+
+        // Append the user email link to the search results container
+        searchResultsContainer.appendChild(userLink);
+
 
         // Add the buttons based on whether the user is already followed or not
         if (user.is_followed || user.is_followed === true) {
@@ -666,8 +680,7 @@ const searchUsers = () => {
           searchResultsContainer.appendChild(followBtn);
         }
 
-        // Append the user email link to the search results container
-        searchResultsContainer.appendChild(userLink);
+        
       });
     })
     .catch(error => {

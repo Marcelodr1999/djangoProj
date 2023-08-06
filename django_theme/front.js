@@ -1,9 +1,10 @@
 const loginModal = document.getElementById('loginModalBtn')
-const registerBtn = document.getElementById('registerBtn')
+const registerBtn2 = document.getElementById('createBtn')
 const modalMain = document.getElementById("myModal");
 const modalInner = document.getElementById("modalInner");
 const formDisplay = document.getElementById("loginForm")
 const span = document.getElementsByClassName("close")[0];
+const span2 = document.getElementsByClassName("regClose")[0];
 const returnBtn = document.getElementById('returnBtn');
 const settingBtn = document.getElementById('settingBtn')
 
@@ -19,8 +20,13 @@ if(span){
     modalMain.style.display = "none";
   }
 }
-if(registerBtn){
-  registerBtn.addEventListener('click', function(e) {
+if(span2){
+  span2.onclick = function() {
+    window.location.href=("landing.html")
+  }
+}
+if(registerBtn2){
+  registerBtn2.addEventListener('click', function(e) {
     window.location.href="register.html"
   })
 }
@@ -30,15 +36,3 @@ if(returnBtn){
     window.location.href="index.html"
   })
 }
-if(settingBtn){
-  settingBtn.addEventListener('click', function(e) {
-    window.location.href="edit.html"
-  })
-}
-
-// window.onclick = function(event) {
-// if (event.target == modalMain) {
-//     modalMain.style.display = "none";
-//     formDisplay.style.display="none"
-// }
-// }

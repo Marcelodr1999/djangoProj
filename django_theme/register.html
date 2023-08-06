@@ -7,27 +7,58 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header class="main-header">
-    <div class="header-div">
-        Welcome
-    </div>
-</header>
-<div class="body-div">
-    <div class="modalReg" id="myModal">
-        <div id="modalInner" class="modal-content">
+    <div class="main-div-landing">
+        <div class="landing-body-div">
+            <p>Logo</p>
+            <div class="landing-center-top">
+                <h1 class="landing-title">Social Media Web Application </h1>
+                <p class="name-landing">Created By: Marcelo Del Rosario</p>
+            </div>
             
-            <form id="registerForm" method="post">
-                <div class="form-div">
-                <input class="inputStyle" type="text" id="registerEmail" placeholder="Email" name="email">
-                <input class="inputStyle" type="password" id="registerPassword" placeholder="Password" name="password">
-                <input class="inputStyle" type="password" id="registerPassword2" placeholder="Password" name="password">
-                <button id="registerBtn" type="submit" class="submitStyle">Register</button>
+            <div class="landing-center-left">
                 
-            </form>
+                <button class="landingBtn" id="createBtn">Create an account</button>
+                <button class="landingBtn" id="loginModalBtn">Sign in</button>
+            </div>
+            
+            
+            <div class="modalReg" id="myModal">
+                <div id="modalInner" class="modal-content">
+                    <span class="regClose">&times;</span>
+
+                    <form id="registerForm" method="post">
+                        <div class="form-div">
+                        <input class="inputStyle" type="text" id="registerEmail" placeholder="Email" name="email">
+                        <input class="inputStyle" type="password" id="registerPassword" placeholder="Password" name="password">
+                        <input class="inputStyle" type="password" id="registerPassword2" placeholder="Password" name="password">
+                        <button id="registerBtn" type="submit" class="submitStyle">Register</button>
+                        
+                    </form>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <div class="landing-body-right">
+            
+                <div class="landing-body-righttop">
+                        
+                </div>
+                <div class="landing-body-bottom">
+                    <h2>
+                        Connect with friends and share your thoughts.
+                    </h2>
+                <hr>
+                    <p class="landing-p-text">
+                        Create and share posts with ease.<br>
+                        
+                        Follow your favorite users to see their updates.<br>
+                        
+                        Personalize your profile and manage your settings.</p>
                 </div>
         </div>
     </div>
-</div>
-      <script src = "api.js"></script>
+
+    <script src = "api.js"></script>
+    <script src = "front.js"></script>
 </body>
 </html>
