@@ -5,29 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Profile</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
 </head>
 <body>
-    <button id="returnBtn" class="submitStyle">Go back</button>
+    <header class="body-header">
+        <h1 class="header-title-text">Social Media Web App</h1>
+        <div id="email_display">
+        </div>   
+    </header>
+    <div class="body-div-flex">
+        <div class="body-div-left">
+            <ul>
+                <a href="index.html"><li>
+                  <i class="fa fa-home fa-lg"></i>
+                  Home
+                </li></a>
+
+                <li>
+                  <i class="fa fa-cog fa-lg"></i>
+                  <a href="edit.html">Settings</a>
+                  
+                </li>
+
+              </ul>
+        </div>
+    <div class="body-divEdit">
+    <!-- <button id="returnBtn" class="submitStyle">Go back</button> -->
     <form id="editForm" method="post">
         <div class="form-div">
-        <p>Set your First and Last Name!</p>
-        <input class="inputStyle-edit" type="text" id="editFirstname" placeholder="First Name" name="firstname">
-        <input class="inputStyle-edit" type="text" id="editLastname" placeholder="Last Name" name="lastname">
-        <button id="editBtn" type="submit" class="submitStyle">Make changes</button>
-        
+            <p>Set your First and Last Name!</p>
+            <input class="inputStyle-edit" type="text" id="editFirstname" placeholder="First Name" name="firstname">
+            <input class="inputStyle-edit" type="text" id="editLastname" placeholder="Last Name" name="lastname">
+            <button id="editBtn" type="submit" class="submitStyle">Make changes</button>
     </form>
-
-
         <button class="deleteMsgBtn" id="deleteAccountBtn" type="">Delete Account</button>
             <div id="confirmationDialog" style="display: none;">
-            <p>Are you sure you want to delete your account?</p>
-            <button class="order-button" id="confirmDeleteBtn">Yes, delete</button>
-            <button class="order-button" id="cancelDeleteBtn">Cancel</button>
+                <p>Are you sure you want to delete your account?</p>
+                <button class="order-button" id="confirmDeleteBtn">Yes, delete</button>
+                <button class="order-button" id="cancelDeleteBtn">Cancel</button>
             </div>
         </div>
-</div>
+    </div>
 
-
+    </div>
     <script src = "api.js"></script>
     <script src = "front.js"></script>
 </body>
