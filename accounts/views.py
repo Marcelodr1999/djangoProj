@@ -9,6 +9,7 @@ from django.contrib.auth.forms import UserCreationForm
 from users.models import CustomUser
 
 from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_protect
 
 class RegistrationForm(UserCreationForm):
     # Add any additional fields you want to include in the registration form
@@ -32,7 +33,6 @@ def register(request):
     else:
         return JsonResponse({'detail': 'Method not allowed'}, status=405)
     
-
 
 @csrf_exempt
 def login_view(request):
@@ -126,7 +126,7 @@ def loggedin_user(request):
 
 from django.db.models import Q
 
-@csrf_exempt
+
 def search_users_view(request):
     search_query = request.GET.get('q')
     if search_query:
